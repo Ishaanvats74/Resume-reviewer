@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import Navbar from "./Navbar";
 
@@ -15,12 +15,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" webcrx="">
+    <ClerkProvider>
+    <html lang="en" >
       <body>
         <div>
-        <div className="z-10  absolute right-50 left-50">
-          <Navbar/>
-        </div>
+          <div className="z-10  absolute right-50 left-50">
+            <Navbar/>
+          </div>
         <div className="z-0 relative text-white bg-black h-screen">
           {children}
        
@@ -28,5 +29,6 @@ export default function RootLayout({
         </div>
       </body>
     </html>
+    </ClerkProvider>
   );
 }

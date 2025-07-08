@@ -1,5 +1,5 @@
 'use client';
-import {  SignUpButton, SignedOut, SignInButton, SignedIn, UserButton, useUser } from '@clerk/nextjs'
+import {  SignUpButton, SignedOut, SignedIn, UserButton, useUser } from '@clerk/nextjs'
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react'
@@ -52,11 +52,6 @@ const Navbar: React.FC = () => {
                     <UserButton />
                 </SignedIn>
                 <SignedOut>
-                    <SignInButton  mode="modal" >
-                        <button className='text-white bg-gray-600 hover:bg-gray-700 transition-all duration-200 ease-in-out px-5 py-4 rounded-full text-xl cursor-pointer'>
-                        Sign in
-                        </button>
-                    </SignInButton>
                     <SignUpButton  mode="modal" >
                         <button className='text-white bg-gray-600 hover:bg-gray-700 transition-all duration-200 ease-in-out px-5 py-4 rounded-full text-xl cursor-pointer'>
                         Sign Up

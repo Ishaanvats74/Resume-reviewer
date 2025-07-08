@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-    <html lang="en" webcrx="some-value">
+    <html lang="en" data-webcrx="some-value">
       <body>
         <div >
           <div className="z-10 fixed inset-x-0 right-50 left-50">

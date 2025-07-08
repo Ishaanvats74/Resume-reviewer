@@ -1,6 +1,6 @@
 'use client';
 import {  SignUpButton, SignedOut, SignedIn, UserButton, useUser } from '@clerk/nextjs'
-import Link from 'next/link';
+
 import { useRouter } from 'next/navigation';
 import React from 'react'
 
@@ -11,8 +11,8 @@ type navItems = {
 }
 const navItems:navItems[]  = [
     {Name : "Home", Path: "/"},
-    {Name : "Reviewer", Path: "/Reviewer"},
-    {Name : "Support", Path: "/Support"},
+    {Name : "Reviewer", Path: "/frontend/ReviewerTab/Reviewer"},
+    {Name : "Support", Path: "/frontend/SupportTab/Support"},
 ];
 
 const Navbar: React.FC = () => {
@@ -42,7 +42,7 @@ const Navbar: React.FC = () => {
             <div>
                 <ul className='flex space-x-9 text-xl'>
                     {navItems.map((item:navItems, index:number)=>(
-                        <li key={index} onClick={()=>handleClick(item)} className='p-2 rounded-xl hover:bg-gray-100/30 transition-all duration-200 ease-in-out cursor-pointer'><Link href={item.Path}>{item.Name}</Link></li>
+                        <li key={index} onClick={()=>handleClick(item)} className='p-2 rounded-xl hover:bg-gray-100/30 transition-all duration-200 ease-in-out cursor-pointer'>{item.Name}</li>
                     ))}
                 </ul>
             </div>

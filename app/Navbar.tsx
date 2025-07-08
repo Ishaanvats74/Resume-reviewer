@@ -1,8 +1,36 @@
-
-import {  SignUpButton, SignedOut, SignInButton, SignedIn, UserButton } from '@clerk/nextjs'
+'use client';
+import {  SignUpButton, SignedOut, SignInButton, SignedIn, UserButton, useUser } from '@clerk/nextjs'
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react'
 
-const Navbar = () => {
+
+type navItems = {
+    Name: string,
+    Path: string,
+}
+const navItems:navItems[]  = [
+    {Name : "Home", Path: "/"},
+    {Name : "Reviewer", Path: "/Reviewer"},
+    {Name : "Support", Path: "/Support"},
+];
+
+const Navbar: React.FC = () => {
+    const { isSignedIn } = useUser();
+    const router = useRouter();
+
+    const handleClick = (item: navItems) =>{
+        if(item.Name === "Reviewer"){
+            if(isSignedIn){
+                router.push(item.Path);
+            } else{
+                router.push(`/sign-in?redirect_url=${item.Path}`);
+            }
+        } else{
+            router.push(item.Path);
+        }
+    }
+
   return (
 
 
@@ -13,9 +41,9 @@ const Navbar = () => {
             </div>
             <div>
                 <ul className='flex space-x-9 text-xl'>
-                    <li className='p-2 rounded-xl hover:bg-gray-100/30 transition-all duration-200 ease-in-out cursor-pointer'>Home</li>
-                    <li className='p-2 rounded-xl hover:bg-gray-100/30 transition-all duration-200 ease-in-out cursor-pointer'>Reviewer</li>
-                    <li className='p-2 rounded-xl hover:bg-gray-100/30 transition-all duration-200 ease-in-out cursor-pointer'>Support</li>
+                    {navItems.map((item:navItems, index:number)=>(
+                        <li key={index} onClick={()=>handleClick(item)} className='p-2 rounded-xl hover:bg-gray-100/30 transition-all duration-200 ease-in-out cursor-pointer'><Link href={item.Path}>{item.Name}</Link></li>
+                    ))}
                 </ul>
             </div>
             <div className='flex space-x-2'>

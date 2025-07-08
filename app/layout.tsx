@@ -16,16 +16,17 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-    <html lang="en" >
+    <html lang="en" webcrx="some-value">
       <body>
-        <div>
-          <div className="z-10  absolute right-50 left-50">
+        <div >
+          <div className="z-10 fixed inset-x-0 right-50 left-50">
             <Navbar/>
           </div>
-        <div className="z-0 relative text-white bg-black h-screen">
-          {children}
-       
-        </div>
+          <div className="z-0 relative bg-cover text-white h-screen ">
+            <div>
+              {children}
+            </div>
+          </div>
         </div>
       </body>
     </html>

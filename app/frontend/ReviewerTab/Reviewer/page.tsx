@@ -4,7 +4,10 @@ import React, { useState } from 'react'
  const Reviewer = () => {
   const [file,setFile] = useState<File | null>(null);
   const [uploading,setUploading] = useState(false);
-  const [response, setRepsonse] = useState("");
+
+  const [atScore,setAtScore] = useState('');
+  const [strengths,setStrengths] = useState('');
+  const [improvements,setImprovements] = useState('');
 
    const handleUpload = async ()=>{
     if(!file) return console.log("No File is selected");
@@ -19,14 +22,19 @@ import React, { useState } from 'react'
     });
 
     const data = await res.json();
-    setRepsonse(data.feedback || 'no feedback received.')
+    setAtScore(data.atsScore);
+    setImprovements(data.improvements);
+    setStrengths(data.strengths);
     setUploading(false);
 
   }
 
   const handleCancel = async()=>{
     setUploading(false);
-    setRepsonse("");
+    setAtScore('');
+    setImprovements('');
+    setStrengths('');
+
   }
   return (
     <div className='bg-black h-screen flex justify-center items-center'>
@@ -37,14 +45,24 @@ import React, { useState } from 'react'
             <button onClick={handleUpload} disabled={uploading} className='bg-green-600/80 hover:bg-green-700 w-full py-1 rounded-xl  transition-all duration-200 ease-in-out'>{uploading ? "Uploading..." : "Upload & Review"}</button>
             <button  className='bg-gray-300/40 hover:bg-red-400/80 w-full py-1 rounded-xl  transition-all duration-200 ease-in-out' onClick={handleCancel}>Cancel</button>
           </div>
-          {response && (
+          {atScore && (
             <div className="mt-6 p-4 border rounded bg-gray-100 text-black w-[80%]">
               <h2 className="text-lg font-semibold mb-2">AI Feedback:</h2>
-              <pre>{response}</pre>
+              <pre>{atScore}</pre>
             </div>
-            
-          )
-          }
+            )}
+          {strengths && (
+            <div className="mt-6 p-4 border rounded bg-gray-100 text-black w-[80%]">
+              <h2 className="text-lg font-semibold mb-2">AI Feedback:</h2>
+              <pre>{strengths}</pre>
+            </div>
+            )}
+          {improvements && (
+            <div className="mt-6 p-4 border rounded bg-gray-100 text-black w-[80%]">
+              <h2 className="text-lg font-semibold mb-2">AI Feedback:</h2>
+              <pre>{improvements}</pre>
+            </div>
+            )}
 
         </div>
     </div>

@@ -1,11 +1,7 @@
 'use client';
-
 import Section1 from "./frontend/HomeTab/Section1/page";
 import Section2 from "./frontend/HomeTab/Section2/page";
 import Section3 from "./frontend/HomeTab/Section3/page";
-
-
-
 
 
 export default function Home() {

@@ -9,30 +9,54 @@ const ResultTab = () => {
     const [atsScore,setAtsScore] = useState('');
     const [strengths,setStrengths] = useState('');
     const [improvements,setImprovements] = useState('');
+    const [pdf,setPdf] = useState('');
+    
 
     useEffect(()=>{
         setAtsScore(sessionStorage.getItem('atsScore') || '' );
         setStrengths(sessionStorage.getItem('strengths') || '');
         setImprovements(sessionStorage.getItem('improvements') || '');
+        setPdf(sessionStorage.getItem('pdf') || '');
     },[]);
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center space-y-6 px-6 py-10">
-      <h1 className="text-3xl font-bold">Resume Review Result</h1>
+  <div className="h-screen flex bg-gray-50 text-black overflow-hidden">
+      {/* Left Panel: Score and Feedback */}
+      <div className="w-full lg:w-1/2 p-8 space-y-6 border-r border-gray-200 overflow-y-auto">
+        <h1 className="text-2xl font-bold">Resume Review Result</h1>
 
-      <div className="bg-gray-800 p-4 rounded-lg w-full max-w-3xl text-white ">
-        <h2 className="text-xl font-semibold mb-2">ATS Score:</h2>
-        <p className='prose max-w-none'><ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>{atsScore || 'No score found'}</ReactMarkdown></p>
+        <div className="bg-white rounded-lg shadow p-4">
+          <h2 className="text-lg font-semibold mb-1">ATS Score</h2>
+          <p className="text-3xl font-bold text-blue-600">{atsScore || "N/A"}</p>
+        </div>
+
+        <div className="bg-white rounded-lg shadow p-4">
+          <h2 className="text-lg font-semibold mb-2">Strengths</h2>
+          <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
+            {strengths || 'No strengths found'}
+          </ReactMarkdown>
+        </div>
+
+        <div className="bg-white rounded-lg shadow p-4">
+          <h2 className="text-lg font-semibold mb-2">Improvements</h2>
+          <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
+            {improvements || 'No improvements found'}
+          </ReactMarkdown>
+        </div>
       </div>
 
-      <div className="bg-gray-800 p-4 rounded-lg w-full max-w-3xl">
-        <h2 className="text-xl font-semibold mb-2">Strengths:</h2>
-        <p className='prose max-w-none'><ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>{strengths || 'No strengths found'}</ReactMarkdown></p>
-      </div>
-
-      <div className="bg-gray-800 p-4 rounded-lg w-full max-w-3xl">
-        <h2 className="text-xl font-semibold mb-2">Improvements:</h2>
-        <p className='prose max-w-none'><ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>{improvements || 'No improvements found'}</ReactMarkdown></p>
+      {/* Right Panel: PDF Viewer */}
+      <div className="w-full lg:w-1/2 p-8 bg-white flex flex-col items-center overflow-y-auto">
+        <h2 className="text-2xl font-bold mb-4">PDF Preview</h2>
+        {pdf ? (
+          <iframe
+            src={pdf}
+            className="w-full h-[80vh] rounded border shadow"
+            title="PDF Viewer"
+          />
+        ) : (
+          <p>No PDF found</p>
+        )}
       </div>
     </div>
   )

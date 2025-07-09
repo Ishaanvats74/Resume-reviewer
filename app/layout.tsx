@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
-import Navbar from "./Navbar";
-
+import ConditionalLayout from "./ConditionalLayout";
 
 export const metadata: Metadata = {
   title: "Resume Reviewer",
@@ -16,20 +15,12 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-    <html lang="en" data-webcrx="some-value">
-      <body>
-        <div >
-          <div className="z-10 fixed inset-x-0 right-50 left-50">
-            <Navbar/>
-          </div>
-          <div className="z-0 relative bg-cover text-white h-screen ">
-            <div>
-              {children}
-            </div>
-          </div>
-        </div>
-      </body>
-    </html>
+      <html lang="en" data-webcrx="some-value">
+        <body>
+          <ConditionalLayout>{children}</ConditionalLayout>
+        </body>
+      </html>
     </ClerkProvider>
   );
 }
+  

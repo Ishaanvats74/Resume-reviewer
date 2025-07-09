@@ -1,7 +1,8 @@
 'use client';
 import { motion } from "framer-motion";
 import React from 'react'
-import BlurText from "../../Components/blurText/page";
+import BlurText from "../../Components/blurText/BlurText";
+
 
 const Section1 = () => {
   return (

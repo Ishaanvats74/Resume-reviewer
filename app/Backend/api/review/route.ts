@@ -1,3 +1,4 @@
+
 import { extractTextFromPDF } from "@/app/utils/extractPdfText";
 import { NextRequest, NextResponse } from "next/server";
 import { OpenAI } from 'openai';

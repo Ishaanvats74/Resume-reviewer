@@ -33,7 +33,39 @@ export async function POST(req:NextRequest) {
 
 async function getAiReview(text:string): Promise<{atsScore: string;strengths: string;improvements: string;}> {
 
-    const prompt1 = `You are an AI Resume Reviewer. Analyze the following resume and provide ATS score (out of 100)\n\n${text}`;
+    const prompt1 =`You are a brutally honest ATS (Applicant Tracking System) engine, trained by hiring managers at Google, Amazon, and Meta.
+
+Your job is to assign a **realistic ATS score out of 100** (in plain text like: "48/100)" based on a resume's ability to pass ATS filters for a generic software engineering job.
+
+Your score breakdown (100 points):
+
+🟠 30 pts – Keyword Relevance  
+Only give full credit if **critical keywords** like TypeScript, REST API, React, Git, Agile, CI/CD, Tailwind, PostgreSQL, Docker, etc. appear **naturally in context**, not just dumped in skills list.
+
+🟠 25 pts – Project Quality  
+Give credit only for **real-world** projects with clear impact (e.g., “increased X by Y%”), deployed links, or proof of usage. Penalize academic-only or vague side projects.
+
+🟠 20 pts – Formatting & Structure  
+Resume must use **standard fonts, no tables/columns**, single-column layout, proper spacing, and ATS-friendly structure. Deduct for custom design, icons, or poor layout.
+
+🟠 15 pts – Technical Skill Clarity  
+Skill section must be **concise and context-supported**. Deduct for buzzword stuffing, mixing soft skills, or lack of tech stack details in projects.
+
+🟠 10 pts – Professionalism  
+Check grammar, clarity, consistent formatting, and appropriate contact details. Deduct for unprofessional email, broken links, typos, or excessive personal info.
+
+STRICT RULES:
+- Weak or average resumes score **below 50**
+- Good resumes score **68–76**
+- Exceptional ones can reach 80–85, but only if all areas are strong
+- Be firm. No partial points. Penalize any fluff, lack of results, or clutter.
+        
+        **IMPORTANT INSTRUCTIONS**
+        - Do not provide explanations or comments.
+        - Do not use Markdown.
+        - Do not use code blocks.
+        give just number out of/100
+        Resume content:\n\n${text}`;
     const prompt2= `You are an AI Resume Reviewer. Analyze the following resume and provide strengths of the resume \n\n${text}`;
     const prompt3= `You are an AI Resume Reviewer. Analyze the following resume and provide weaknesses, and 3 improvement suggestions: \n\n${text}`;
 
@@ -71,7 +103,7 @@ async function getAiReview(text:string): Promise<{atsScore: string;strengths: st
         }),
     ]);
     
-      const message1 = result1.choices[0].message.content ?? "";
+      const message1 = result1.choices[0].message.content?.match(/\d{1,3}/)?.[0] ?? "N/A";
       const message2 = result2.choices[0].message.content ?? "";
       const message3 = result3.choices[0].message.content ?? "";
       console.log(`Assistant: ${message1}, ${message2}, ${message3}`);

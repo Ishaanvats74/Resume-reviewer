@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 .firstBackground{
-    background-image: url('/firstBackground1.jpg');
+    background-image: url('/images/firstbackground1.jpg');
     background-repeat: no-repeat;
     background-size: cover;
 };

@@ -1,16 +1,15 @@
 'use client';
-import React, { useState } from 'react'
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import rehypeRaw from "rehype-raw"; 
+
+import { useRouter } from 'next/navigation';
+import React, { useRef, useState } from 'react'
+
 
  const Reviewer = () => {
+  const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [file,setFile] = useState<File | null>(null);
   const [uploading,setUploading] = useState(false);
 
-  const [atsScore,setAtScore] = useState('');
-  const [strengths,setStrengths] = useState('');
-  const [improvements,setImprovements] = useState('');
 
    const handleUpload = async ()=>{
     if(!file) return console.log("No File is selected");
@@ -29,9 +28,10 @@ import rehypeRaw from "rehype-raw";
     if(!res){
       console.error('server Error:', data?.error || "Unkown error")
     }else {
-      setAtScore(data.atsScore || "No ATS Score")
-      setStrengths(data.strengths || "No Strenght")
-      setImprovements(data.improvements || "No Improvment")
+      sessionStorage.setItem('atsScore',data.atsScore || "No ATS Score")
+      sessionStorage.setItem('strengths',data.strengths || "No strengths")
+      sessionStorage.setItem('improvements',data.improvements || "No Improvment")
+      router.push('/frontend/ResultTab');
     }} catch(error){
       console.error(error)
     }finally{
@@ -41,10 +41,11 @@ import rehypeRaw from "rehype-raw";
 
   const handleCancel = async()=>{
     setUploading(false);
-    setAtScore('');
-    setImprovements('');
-    setStrengths('');
     setFile(null);
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   }
   return (
    <div className="bg-black min-h-screen flex justify-center items-center py-10 px-4">
@@ -55,7 +56,7 @@ import rehypeRaw from "rehype-raw";
         type="file"
         name="resume"
         className="w-full p-2 rounded-xl bg-gray-300/40 hover:bg-gray-400/40 transition-all duration-200 ease-in-out text-white"
-        onChange={(e) => setFile(e.target.files?.[0] || null)}
+        onChange={(e) => setFile(e.target.files?.[0] || null)} ref={fileInputRef}
       />
 
       <div className="flex flex-col sm:flex-row justify-between w-full gap-4">
@@ -73,8 +74,14 @@ import rehypeRaw from "rehype-raw";
           Cancel
         </button>
       </div>
+      {uploading && (
+        <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex flex-col items-center justify-center text-white text-xl">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-white mb-6"></div>
+          Analyzing Resume...
+        </div>
+      )}
 
-      {atsScore && (
+      {/* {atsScore && (
         <div className="bg-white text-black rounded-lg p-5">
           <h2 className="font-bold text-xl mb-2">ATS Score:</h2>
           <div className="prose max-w-none">
@@ -99,7 +106,7 @@ import rehypeRaw from "rehype-raw";
             <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]} >{improvements}</ReactMarkdown>
           </div>
         </div>
-      )}
+      )} */}
     </div>
 </div>
 

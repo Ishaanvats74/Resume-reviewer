@@ -35,11 +35,11 @@ const Navbar: React.FC = () => {
 
     <div className='sticky'>
         <div className=' bg-white/50 flex justify-between items-center mx-5 mt-5 h-20 rounded-full px-5 '>
-            <div className='text-3xl font-semibold '>
-                <p>Resume</p>
+            <div className='text-3xl font-semibold text-white/80'>
+                <p>AI Resume Review</p>
             </div>
             <div>
-                <ul className='flex space-x-9 text-xl'>
+                <ul className='flex space-x-9 text-xl text-white/80'>
                     {navItems.map((item:navItems, index:number)=>(
                         <li key={index} onClick={()=>handleClick(item)} className='p-2 rounded-xl hover:bg-gray-100/30 transition-all duration-200 ease-in-out cursor-pointer'>{item.Name}</li>
                     ))}
@@ -51,7 +51,7 @@ const Navbar: React.FC = () => {
                     <UserButton />
                 </SignedIn>
                 <SignedOut>
-                    <SignUpButton  mode="modal" >
+                    <SignUpButton>
                         <button className='text-white bg-gray-600 hover:bg-gray-700 transition-all duration-200 ease-in-out px-5 py-4 rounded-full text-xl cursor-pointer'>
                         Sign Up
                         </button>
